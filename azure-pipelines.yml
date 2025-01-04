@@ -16,6 +16,7 @@ pool:
   name: Default
   demands: 
   - Agent.Name -equals WINRUNNER
+  - Agent.Version -equals 4.248
 
 jobs:
 - job: Job
