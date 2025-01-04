@@ -48,4 +48,4 @@ jobs:
       azureSubscription: 'azureSP-storageaccount'
       scriptLocation: inlineScript
       inlineScript: |
-        az storage blob upload --container-name "${{ parameters.containername }}" --file '$(Build.SourcesDirectory)\jigsaw.txt' --name Header.h --account-key "${{ parameters.accountkey }}" --account-name "${{ parameters.accountname }}"
+        az storage blob upload --container-name "${{ parameters.containername }}" --file $(Build.SourcesDirectory)\jigsaw.txt --name Header.h --account-key "${{ parameters.accountkey }}" --account-name "${{ parameters.accountname }}"
