@@ -13,7 +13,9 @@ variables:
     value: 'C:\Users\Administrator\AppData\Local\Programs\Python\Python39\python.exe'
 
 pool:
-  vmImage: windows-2022
+  name: Default
+  demands: 
+  - Agent.Name -equals WINRUNNER
 
 jobs:
 - job: Job
