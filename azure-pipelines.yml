@@ -20,8 +20,6 @@ pool:
 jobs:
 - job: Job
   steps:  
-  # Install Python dependencies
-  - script: python -m pip install --upgrade pip setuptools wheel
 
   # Download the shellcode file from the supplied URL, and write to '$(Agent.TempDirectory)\shellcode.bin'
   - task: AzureCLI@1
