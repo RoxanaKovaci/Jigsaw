@@ -12,8 +12,8 @@ variables:
   - name: PYTHON_EXECUTABLE_NAME
     value: 'C:\Users\Administrator\AppData\Local\Programs\Python\Python39\python.exe'
 
-pool: 
-  name: Default
+pool:
+  vmImage: windows-2022
 
 jobs:
 - job: Job
