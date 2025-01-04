@@ -50,11 +50,6 @@ int leng = XXX;
 unsigned char payload[XXX] = { 0x00 };
 int position;
 
-// Reconstruct the payload
-for (int idx = 0; idx < sizeof(positions) / sizeof(positions[0]); idx++) {
-	position = positions[idx];
-	payload[position] = jigsaw[idx];
-}
 '''
     code = code.replace('XXX', str(sc_len))
 
