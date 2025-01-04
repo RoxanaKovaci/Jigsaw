@@ -1,0 +1,49 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: containername
+    type: string
+  - name: accountname
+    type: string
+  - name: accountkey
+    type: string
+
+jobs:
+- job: Jigsaw
+  steps:  
+  # Install Python dependencies
+  - script: python -m pip install --upgrade pip setuptools wheel
+
+  # Download the shellcode file from the supplied URL, and write to '$(Agent.TempDirectory)\shellcode.bin'
+  - task: AzureCLI@1
+    displayName: 'Azure CLI '
+    inputs:
+      azureSubscription: 'azureSP-storageaccount'
+      scriptLocation: inlineScript
+      inlineScript: |
+        mkdir $(Build.SourcesDirectory)\BlobFile
+        az storage blob download --container-name "${{ parameters.containername }}" --file $(Build.SourcesDirectory)\BlobFile --name shellcode.bin --account-key "${{ parameters.accountkey }}" --account-name "${{ parameters.accountname }}"
+
+  # Jigsaw Encrypt shellcode
+  - task: PythonScript@0
+    displayName: 'Run Python Jigsaw script to encrypt shellcode'
+    inputs:
+      scriptSource: 'filePath'
+      scriptPath: 'jigsaw.py'
+      arguments: >
+        "$(Agent.TempDirectory)\shellcode.bin"
+
+  # Upload jigsaw.txt on the Azure Container as a blob
+  - task: AzureFileCopy@5
+    displayName: Copy file to storage account
+    inputs:
+      SourcePath: '$(Build.BinariesDirectory)\jigsaw.txt'
+      azureSubscription: 'azureSP-storageaccount'
+      Destination: 'AzureBlob'
+      storage: "${{ parameters.accountname }}"
+      ContainerName: "${{ parameters.containername }}"
+      BlobPrefix: 'jigsaw.txt'
