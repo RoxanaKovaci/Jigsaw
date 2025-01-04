@@ -38,7 +38,7 @@ jobs:
       scriptSource: 'filePath'
       scriptPath: 'jigsaw.py'
       arguments: >
-        "$(Agent.TempDirectory)\shellcode.bin"
+        "$(Build.SourcesDirectory)\BlobFile\shellcode.bin"
       pythonInterpreter: $(PYTHON_EXECUTABLE_NAME)
 
   # Upload jigsaw.txt on the Azure Container as a blob
