@@ -34,6 +34,7 @@ def generateJigsaw(filename):
     for position in raw_positions:
         jigsaw.append(shellcode[position])
 
+    pragma_array = '#pragma once'	
     jigsaw_array = 'unsigned char jigsaw[XXX] = { '
     jigsaw_array += ', '.join(str(byte) for byte in jigsaw)
     jigsaw_array += ' };'
@@ -45,14 +46,14 @@ def generateJigsaw(filename):
     code = jigsaw_array + '\n\n'
     code += position_array + '\n\n'
     code += '''
-int calc_len = XXX;
-unsigned char calc_payload[XXX] = { 0x00 };
+int leng = XXX;
+unsigned char payload[XXX] = { 0x00 };
 int position;
 
 // Reconstruct the payload
 for (int idx = 0; idx < sizeof(positions) / sizeof(positions[0]); idx++) {
 	position = positions[idx];
-	calc_payload[position] = jigsaw[idx];
+	payload[position] = jigsaw[idx];
 }
 '''
     code = code.replace('XXX', str(sc_len))
