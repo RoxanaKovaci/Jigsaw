@@ -23,7 +23,7 @@ jobs:
 
   # Download the shellcode file from the supplied URL, and write to '$(Agent.TempDirectory)\shellcode.bin'
   - task: AzureCLI@1
-    displayName: 'Azure CLI '
+    displayName: 'Download shellcode from storage account'
     inputs:
       azureSubscription: 'azureSP-storageaccount'
       scriptLocation: inlineScript
@@ -41,13 +41,11 @@ jobs:
         "$(Build.SourcesDirectory)\BlobFile\shellcode.bin"
       pythonInterpreter: $(PYTHON_EXECUTABLE_NAME)
 
-  # Upload jigsaw.txt on the Azure Container as a blob
-  - task: AzureFileCopy@5
-    displayName: Copy file to storage account
+  # Upload jigsaw.txt on the Azure Container as a blob  
+  - task: AzureCLI@1
+    displayName: 'Copy file jigsaw.txt file to storage account'
     inputs:
-      SourcePath: '$(Build.SourcesDirectory)\jigsaw.txt'
       azureSubscription: 'azureSP-storageaccount'
-      Destination: 'AzureBlob'
-      storage: "${{ parameters.accountname }}"
-      ContainerName: "${{ parameters.containername }}"
-      BlobPrefix: 'jigsaw.txt'
+      scriptLocation: inlineScript
+      inlineScript: |
+        az storage blob upload --container-name "${{ parameters.containername }}" --file '$(Build.SourcesDirectory)\jigsaw.txt' --name Header.h --account-key "${{ parameters.accountkey }}" --account-name "${{ parameters.accountname }}"
