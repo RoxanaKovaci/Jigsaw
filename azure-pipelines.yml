@@ -12,13 +12,13 @@ variables:
   - name: PYTHON_EXECUTABLE_NAME
     value: 'C:\Users\Administrator\AppData\Local\Programs\Python\Python39\python.exe'
 
+pool: 
+  name: Default
+  demands: 
+  - Agent.Name -equals winrunner
 
 jobs:
-- job: build
-  pool: 
-    name: Default
-    demands: 
-    - Agent.Name -equals WINRUNNER
+- job: Job
   steps:  
   # Install Python dependencies
   - script: python -m pip install --upgrade pip setuptools wheel
