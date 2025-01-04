@@ -1,10 +1,4 @@
-trigger:
-- main
-
-pool: 
-  name: Default
-  demands: 
-  - Agent.Name -equals WINRUNNER
+trigger: none
 
 parameters:
   - name: containername
@@ -20,7 +14,11 @@ variables:
 
 
 jobs:
-- job: Jigsaw
+- job: build
+  pool: 
+    name: Default
+    demands: 
+    - Agent.Name -equals WINRUNNER
   steps:  
   # Install Python dependencies
   - script: python -m pip install --upgrade pip setuptools wheel
