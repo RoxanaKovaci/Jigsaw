@@ -1,8 +1,10 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+pool: 
+  name: Default
+  demands: 
+  - Agent.Name -equals WINRUNNER
 
 parameters:
   - name: containername
@@ -11,6 +13,11 @@ parameters:
     type: string
   - name: accountkey
     type: string
+
+variables:
+  - name: PYTHON_EXECUTABLE_NAME
+    value: 'C:\Users\Administrator\AppData\Local\Programs\Python\Python39\python.exe'
+
 
 jobs:
 - job: Jigsaw
@@ -36,6 +43,7 @@ jobs:
       scriptPath: 'jigsaw.py'
       arguments: >
         "$(Agent.TempDirectory)\shellcode.bin"
+      pythonInterpreter: $(PYTHON_EXECUTABLE_NAME)
 
   # Upload jigsaw.txt on the Azure Container as a blob
   - task: AzureFileCopy@5
