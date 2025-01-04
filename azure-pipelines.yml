@@ -45,7 +45,7 @@ jobs:
   - task: AzureFileCopy@5
     displayName: Copy file to storage account
     inputs:
-      SourcePath: '$(Build.BinariesDirectory)\jigsaw.txt'
+      SourcePath: '$(Build.SourcesDirectory)\jigsaw.txt'
       azureSubscription: 'azureSP-storageaccount'
       Destination: 'AzureBlob'
       storage: "${{ parameters.accountname }}"
